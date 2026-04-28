@@ -203,26 +203,6 @@ $$\text{Safety as external prohibition} \longrightarrow \text{Safety as endogeno
 
 ---
 
-## External Review
-
-This framework has been reviewed by **Prof. Nisarg Shah** (Associate Professor, Department of Computer Science, University of Toronto; Schwartz Reisman Institute for Technology and Society; Vector Institute).
-
-The assessment identified the monotone ratchet mechanism and the hard separation between admissibility and optimization as the core novel contributions. Prof. Shah has expressed interest in collaborative research applying the framework to multi-agent simulation environments including GovSim, with integration of game-theoretic and social choice foundations.
-
----
-
-## Citation
-
-```bibtex
-@techreport{brezgin2025ia,
-  title     = {Internalized Alignment: A Mathematical Framework
-               for Endogenous Agent Governance},
-  author    = {Brezgin, Artem},
-  year      = {2025},
-  institution = {Quant-Trika Program / Spanda Foundation},
-  note      = {Technical draft. Reviewed by N. Shah, University of Toronto}
-}
-```
 
 ---
 
