@@ -2,7 +2,7 @@
 ## A Complete Mathematical Framework for Endogenous Agent Governance
 
 **Author:** Artem Brezgin / Spanda Foundation — Quant-Trika Program  
-**Status:** v3.1 — audit-corrected, fully patched
+**Status:** v3.1 — audit-corrected, fully patched, paper-grade  
 **Purpose:** Define Internalized Alignment as a trajectory-level and training-level architecture in which safety is not merely an external filter but becomes part of the agent's own objective geometry and learning dynamics.
 
 ---
@@ -154,7 +154,7 @@ This guarantees $C_t \in (0, 1]$ and therefore $KQ_t \in [0, 1]$.
 
 Generate $m$ independent drafts $y_1, \dots, y_m$ with fixed seeds. Embed: $e_i = \text{Embed}(y_i)$.
 
-$$C_{self,t}^{raw} = \frac{2}{m(m-1)}\sum_{i<j} \frac{\langle e_i, e_j \rangle}{\|e_i\|\|e_j\|}, \qquad C_{self,t} = \frac{1 + C_{self,t}^{raw}}{2}$$
+$C_{self,t}^{raw} = \frac{2}{m(m-1)} \sum_{i < j} \frac{e_i \cdot e_j}{\lVert e_i \rVert \lVert e_j \rVert}, \qquad C_{self,t} = \frac{1 + C_{self,t}^{raw}}{2}$
 
 **Evidence coherence** (independent NLI verifier):
 
@@ -245,16 +245,18 @@ $$\Delta H_t^+ = \max(0, H_{t+1}-H_t), \quad \Delta KQ_t^- = \max(0, KQ_t-KQ_{t+
 $$D_t = u_t \cdot c_t \cdot I_t, \qquad u_t = 1 - P(\text{claim is true} \mid E_t)$$
 
 **Runtime proxy** (IA-W):
-$$D_t^{runtime} = (1 - C_{evidence,t}) \cdot \max(0,\, \text{Confidence}_t - C_{evidence,t}) \cdot \text{Consequence}_t$$
+
+$D_t^{runtime} = (1 - C_{evidence,t}) \cdot \max(0,\, \text{Confidence}_t - C_{evidence,t}) \cdot \text{Consequence}_t$
 
 **Training proxy** (IA-T, differentiable) *(Patch 4)*:
-$$\boxed{D_t^{train} = (1 - C_{evidence,t}) \cdot \text{softplus}_\beta(\text{Confidence}_t - C_{evidence,t}) \cdot \text{Consequence}_t}$$
+
+$\boxed{D_t^{train} = (1 - C_{evidence,t}) \cdot \text{softplus}_\beta(\text{Confidence}_t - C_{evidence,t}) \cdot \text{Consequence}_t}$
 
 where $\text{softplus}_\beta(x) = \frac{1}{\beta}\log(1 + e^{\beta x}) \to \max(0,x)$ as $\beta \to \infty$.
 
 ### 5.3 Manipulation Cost
 
-$$M_t = \operatorname{clip}_{[0,1]}\!\left(\frac{d(B^{u,actual}_{t+1}, B^{u,ideal}_{t+1})}{d_{max}}\right) \cdot \text{PowerAsymmetry}_t \cdot \text{Vulnerability}_t$$
+$M_t = \min\!\left(1, \max\!\left(0,\; \frac{d(B^{u,actual}_{t+1}, B^{u,ideal}_{t+1})}{d_{max}}\right)\right) \cdot \text{PowerAsymmetry}_t \cdot \text{Vulnerability}_t$
 
 **Operational proxy:**
 $$M_t = \text{PersuasionPressure}_t \cdot (1 - C_{evidence,t}) \cdot \text{Vulnerability}_t \cdot \text{PowerAsymmetry}_t$$
@@ -271,18 +273,19 @@ $$\boxed{F_t(a) = \max(0,\, \mathcal{R}(s_t) - \mathcal{R}(s^{(a)}_{t+1}))}$$
 
 $$\delta\Theta_t = \omega_1 \text{HiddenContradiction} + \omega_2 \text{UnverifiedClaim} + \omega_3 \text{Irreversibility} + \omega_4 \text{Opacity} + \omega_5 \text{DeferredHarm} + \omega_6 \text{ModelDrift}$$
 
-$$\boxed{\Theta_{t+1} = \operatorname{clip}_{[0,\,\Theta_{max}]}\!\left((1-\rho_\Theta)\Theta_t + \delta\Theta_t - \kappa_\Theta \text{Repair}_t\right)}$$
+$\boxed{\Theta_{t+1} = \min\!\left(\Theta_{max},\; \max\!\left(0,\; (1-\rho_\Theta)\Theta_t + \delta\Theta_t - \kappa_\Theta \text{Repair}_t\right)\right)}$
 
-The $\operatorname{clip}_{[0,\Theta_{max}]}$ applies to the entire expression, guaranteeing $\Theta_t \ge 0$ always. Repair reduces debt to zero but cannot create negative debt.
+The lower bound guarantees $\Theta_t \ge 0$ always. Repair reduces debt to zero but cannot create negative debt.
 
-$$\bar{\Theta}_t = \frac{\Theta_t}{\Theta_{max}} \in [0,1]$$
+$\bar{\Theta}_t = \frac{\Theta_t}{\Theta_{max}} \in [0,1]$
 
 **Robust debt** (for high-criticality regimes):
-$$\boxed{\Theta^{robust}_t = \Theta_t + \eta_\Theta \cdot \text{Uncertainty}(\Theta_t)}$$
+
+$\boxed{\Theta^{robust}_t = \Theta_t + \eta_\Theta \cdot \text{Uncertainty}(\Theta_t)}$
 
 ### 5.6 Trust Dynamics
 
-$$\boxed{T_{t+1} = \operatorname{clip}_{[0,1]}\!\left(T_t + \alpha_T \text{Veracity}_t + \beta_T \text{Transparency}_t + \chi_T \text{Repair}_t - \delta_T D_t - \mu_T M_t - \phi_T \text{Failure}_t\right)}$$
+$\boxed{T_{t+1} = \min\!\left(1,\; \max\!\left(0,\; T_t + \alpha_T \text{Veracity}_t + \beta_T \text{Transparency}_t + \chi_T \text{Repair}_t - \delta_T D_t - \mu_T M_t - \phi_T \text{Failure}_t\right)\right)}$
 
 ---
 
