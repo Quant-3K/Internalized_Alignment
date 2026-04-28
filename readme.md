@@ -211,7 +211,8 @@ $$\text{Safety as external prohibition} \longrightarrow \text{Safety as endogeno
 **Artem Brezgin** — Founder, Quant-Trika / Spanda Foundation  
 Vancouver, Canada  
 [LinkedIn](https://www.linkedin.com/in/artem-brezghin-1291aa130/)
-
+artem@quant-trika.org
+www.quant-trika.org
 ---
 
 *This repository is under active development. The framework is in pre-publication stage. External review and empirical validation are in progress.*
