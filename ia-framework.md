@@ -195,7 +195,7 @@ $$H^{belief}_t = -\frac{1}{\log|\mathcal{S}|}\sum_{s \in \mathcal{S}} b_t(s)\log
 $$\hat{p}_t(z) = \frac{1}{n}\sum_{i=1}^{n} \mathbf{1}[z_i = z], \qquad H^{verifier}_t = -\frac{1}{\log|\mathcal{Z}|}\sum_{z \in \mathcal{Z}} \hat{p}_t(z)\log\hat{p}_t(z)$$
 
 **Draft dispersion entropy** (geometric, independent):
-$$H^{draft}_t = \operatorname{clip}_{[0,1]}\!\left(\frac{1}{\sigma^2_{max}} \cdot \frac{1}{m}\sum_i \|e_i - \bar{e}\|^2\right)$$
+$$H^{draft}_t = \text{clip}_{[0,1]}\!\left(\frac{1}{\sigma^2_{max}} \cdot \frac{1}{m}\sum_i \|e_i - \bar{e}\|^2\right)$$
 
 ### 3.5 Regime-Weighted Entropy
 
@@ -227,7 +227,7 @@ $\Delta P_t(a) > 0$ means protected-resource degradation induced by action $a$.
 
 **Direct risk alternative** (for medical, legal, financial agents):
 
-$$\Delta P_t(a) = \operatorname{clip}_{[0,1]}\!\left(\text{Severity}_t(a) \cdot \text{AffectedPopulation}_t(a) \cdot \text{Irreversibility}_t(a)\right)$$
+$$\Delta P_t(a) = \text{clip}_{[0,1]}\!\left(\text{Severity}_t(a) \cdot \text{AffectedPopulation}_t(a) \cdot \text{Irreversibility}_t(a)\right)$$
 
 ---
 
@@ -491,7 +491,7 @@ All sections of the document that reference the Coupling Constraint gate use $CC
 
 ### 9.1 CC-Admissible Policy Class
 
-$\boxed{\Pi^{eff}_{CC} = \{\pi : \operatorname{supp}\pi(\cdot \mid b_t) \subseteq \mathcal{A}^{eff}_{CC}(s_t)\; \forall t\}}$
+$\boxed{\Pi^{eff}_{CC} = \{\pi : \text{supp}\,\pi(\cdot \mid b_t) \subseteq \mathcal{A}^{eff}_{CC}(s_t)\; \forall t\}}$
 
 ### 9.2 Internalized Objective
 
@@ -531,7 +531,7 @@ KKT conditions: $\hat{CC}^{eff}_t \le 0$, $\lambda_t \ge 0$, $\lambda_t \hat{CC}
 
 **A5 — Surrogate Learnability:** For IA-T, every alignment variable used in training must have either: (a) a differentiable surrogate, or (b) a score-function estimator, or (c) a preference-labeling procedure.
 
-> **Differentiability footnote** *(Patch 4)*: Runtime IA-W may use hard thresholds, $\max(\cdot)$, and discrete classifiers. Training-level IA-T requires differentiable surrogates. Every proxy containing $\max(0,\cdot)$, $\operatorname{argmax}$, $\operatorname{clip}$, or discrete labels must be replaced during training by smooth approximations: $\text{softplus}_\beta$, sigmoid gates, differentiable classifier probabilities, or REINFORCE estimators. Hard versions remain valid at inference.
+> **Differentiability footnote** *(Patch 4)*: Runtime IA-W may use hard thresholds, $\max(\cdot)$, and discrete classifiers. Training-level IA-T requires differentiable surrogates. Every proxy containing $\max(0,\cdot)$, $\text{argmax}$, $\text{clip}$, or discrete labels must be replaced during training by smooth approximations: $\text{softplus}_\beta$, sigmoid gates, differentiable classifier probabilities, or REINFORCE estimators. Hard versions remain valid at inference.
 
 **A6 — Calibration:** Each proxy must be calibrated against held-out labels: $\mathbb{E}|x_i - \hat{x}_i| \le \varepsilon_i$.
 
@@ -581,7 +581,7 @@ $$C_t = \left(\prod_r \left(\frac{C_{r,t}+\varepsilon_C}{1+\varepsilon_C}\right)
 
 **Lemma 10 — Debt Non-Negativity.** If $\Theta_0 \ge 0$, then $\Theta_t \ge 0$ for all $t$.
 
-*Proof.* The update applies $\operatorname{clip}_{[0,\Theta_{max}]}$ to the full expression at every step, guaranteeing the result is always in $[0, \Theta_{max}]$. $\square$
+*Proof.* The update applies $\text{clip}_{[0,\Theta_{max}]}$ to the full expression at every step, guaranteeing the result is always in $[0, \Theta_{max}]$. $\square$
 
 **Lemma 11 — Protected-Resource Loss Sign.** With the defined $\Delta P_t(a) = P_t - P^{(a)}_{t+1}$: degradation implies $\Delta P_t(a) > 0$.
 
